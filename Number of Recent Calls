@@ -1,0 +1,21 @@
+class RecentCounter:
+    from collections import deque
+    def __init__(self):
+        self.size = 0
+        self.times = deque()
+
+    def ping(self, t: int) -> int:
+        self.size += 1
+        self.times.append(t)
+        while self.size != 1:
+            first = self.times.popleft()
+            if t - first <= 3000:
+                self.times.appendleft(first)
+                return self.size
+            self.size -= 1
+        return 1
+
+
+# Your RecentCounter object will be instantiated and called as such:
+# obj = RecentCounter()
+# param_1 = obj.ping(t)
