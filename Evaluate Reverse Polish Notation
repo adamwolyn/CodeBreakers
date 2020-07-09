@@ -1,0 +1,14 @@
+class Solution:
+    from collections import deque
+    def evalRPN(self, tokens: List[str]) -> int:
+        stk = deque()
+        operators = ['+', '-', '*', '/']
+        for char in tokens:
+            if char in operators:
+                second = stk.pop()
+                first = stk.pop()
+                res = eval(str(first) + char + str(second))
+                stk.append(int(res))
+            else:
+                stk.append(char)
+        return stk.pop()
