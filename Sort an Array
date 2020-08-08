@@ -1,0 +1,29 @@
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def qSort(nums, low, high):
+            if high - low <= 0:
+                return nums
+            if high - low == 1:
+                if nums[high] < nums[low]:
+                    nums[low], nums[high] = nums[high], nums[low]
+                return nums
+            i = low
+            lt = low
+            gt = high
+            partition = nums[low]
+            while i <= gt:
+                if nums[i] < partition:
+                    nums[i], nums[lt] = nums[lt], nums[i]
+                    i += 1
+                    lt += 1
+                elif nums[i] > partition:
+                    nums[i], nums[gt] = nums[gt], nums[i]
+                    gt -= 1
+                elif nums[i] == partition:
+                    i += 1
+            
+            nums = qSort(nums, low, lt - 1)
+            nums = qSort(nums, gt + 1, high)
+            return nums
+            
+        return qSort(nums, 0, len(nums) - 1)
