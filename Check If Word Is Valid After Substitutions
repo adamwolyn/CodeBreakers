@@ -1,0 +1,12 @@
+class Solution:
+    def isValid(self, S: str) -> bool:
+        stk = []
+        for char in S:
+            if char == 'c':
+                if stk[-2:] != ['a', 'b']:
+                    return False
+                stk.pop()
+                stk.pop()
+            else:
+                stk.append(char)
+        return not len(stk)
