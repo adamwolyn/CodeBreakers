@@ -1,0 +1,30 @@
+class Solution:
+    def expressiveWords(self, S: str, words: List[str]) -> int:
+        count = 0
+        for word in words:
+            s = 0
+            w = 0
+            while w < len(word) and s < len(S):
+                if S[s] != word[w]:
+                    break
+                repeats = 1
+                s += 1
+                while s < len(S) and S[s] == S[s - 1]:
+                    s += 1
+                    repeats += 1
+                if repeats == 2:
+                    s -= 1
+                    w += 1
+                    continue
+                if repeats == 1:
+                    w += 1
+                    continue
+                w += 1
+                repeats -= 1
+                while w < len(word) and word[w] == word[w - 1] and repeats:
+                    w += 1
+                    repeats -= 1
+            if s >= len(S) and w >= len(word):  
+                count += 1
+        return count
+                
