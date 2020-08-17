@@ -1,0 +1,15 @@
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        count = len(s)
+        for i in range(len(s)):
+            j = 1
+            while i + j < len(s) and i - j >= 0:
+                if s[i-j] != s[i+j]:
+                    break
+                j += 1
+                count += 1
+            j = 1
+            while i - j + 1 >= 0 and i + j < len(s) and s[i - j + 1] == s[i + j]:
+                count += 1
+                j += 1
+        return count
