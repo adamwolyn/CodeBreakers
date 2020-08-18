@@ -1,0 +1,26 @@
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        def helper(low, high, nums, target, right):
+            print(low, high)
+            if high - low <= 1:
+                if right:
+                    if nums[high] == target:
+                        return high
+                    if nums[low] == target:
+                        return low
+                if nums[low] == target:
+                    return low
+                if nums[high] == target:
+                    return high
+                return -1
+            mid = (low + high) // 2
+            if nums[mid] < target or (right and target == nums[mid]):
+                return helper(mid, high, nums, target, right)
+            return helper(low, mid, nums, target, right)
+        if len(nums) == 0:
+            return [-1, -1]
+        left = helper(0, len(nums) - 1, nums, target, False)
+        if left == -1:
+            return [-1, -1]
+        right = helper(0, len(nums) - 1, nums, target, True)
+        return [left, right]
