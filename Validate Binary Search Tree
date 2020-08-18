@@ -12,6 +12,7 @@ class Solution:
             if root.val <= minVal or root.val >= maxVal:
                 return False
             r = helper(root.right, root.val, maxVal)
-            l = helper(root.left, minVal, root.val)
-            return r and l
+            if not r:
+                return r
+            return helper(root.left, minVal, root.val)
         return helper(root, float("-inf"), float("inf"))
