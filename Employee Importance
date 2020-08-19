@@ -1,0 +1,25 @@
+"""
+# Definition for Employee.
+class Employee:
+    def __init__(self, id: int, importance: int, subordinates: List[int]):
+        self.id = id
+        self.importance = importance
+        self.subordinates = subordinates
+"""
+
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        stk = [ ]
+        sum = 0
+        stk.append(id)
+        while len(stk):
+            ID = stk.pop()
+            for e in employees:
+                if e.id == ID:
+                    employee = e
+                    break
+            sum += employee.importance
+            for simp in employee.subordinates:
+                stk.append(simp)
+        return sum
+            
