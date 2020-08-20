@@ -1,0 +1,36 @@
+from collections import deque
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        g = { }
+        wordList.append(beginWord)
+        poss = False
+        for word in wordList:
+            if word == endWord:
+                poss = True
+            g[word] = [ ]
+            for i in range(len(word)):
+                temp = word[:i] + "*" + word[i+1:]
+                g[word].append(temp)
+                if temp in g:
+                    g[temp].append(word)
+                else:
+                    g[temp] = [word]
+        if not poss:
+            print("not poss")
+            return 0
+        distances = dict.fromkeys(wordList, 0)
+        addedQ = dict.fromkeys(wordList, False)
+        addedQ[beginWord] = True
+        q = deque([beginWord])
+        while len(q) > 0:
+            word = q.pop()
+            if word == endWord:
+                return distances[word] + 1
+            dis = distances[word] + 1
+            for temp in g[word]:
+                for nextWord in g[temp]:
+                    if not addedQ[nextWord]:
+                        addedQ[nextWord] = True
+                        distances[nextWord] = dis
+                        q.appendleft(nextWord)
+        return 0
