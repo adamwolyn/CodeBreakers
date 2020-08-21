@@ -1,0 +1,17 @@
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        safe = collections.defaultdict(int)
+        def isSafe(vertex):
+            if safe[vertex] != 0:
+                return safe[vertex] == 2
+            safe[vertex] = 1
+            for neighbor in graph[vertex]:
+                if safe[neighbor] == 2:
+                    continue
+                if safe[neighbor] == 1 or not isSafe(neighbor):
+                    return False
+            safe[vertex] = 2
+            return True
+        
+        return filter(isSafe, range(len(graph)))
+        
