@@ -1,0 +1,65 @@
+class Solution:
+    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+        # m x n where m = len(mat), n = len(mat[0]) 
+        #Pacific-> ([0, m - 1], 0), (0, [0, n - 1])
+        #Atlantic-> ([0, m - 1], n - 1), (m - 1, [0, n - 1])
+        #Unit: (i, j)--maps>> (Pacific, Atlantic)
+        if not matrix:
+            return []
+        units = { }
+        m = len(matrix)
+        n = len(matrix[0])
+        atlQ = [ ]
+        pacQ = [ ]
+        for i in range(m):
+            for j in range(n):
+                p = False
+                a = False
+                if i == 0 or j == 0:
+                    p = True
+                    pacQ.append((i, j))
+                if i == m - 1 or j == n - 1:
+                    a = True
+                    atlQ.append((i, j))
+                units[(i, j)] = [p, a]
+        while atlQ:
+            temp = [ ]
+            while atlQ:
+                temp.append(atlQ.pop())
+            for i, j in temp:
+                if i-1 >= 0 and units[(i-1,j)][1] == False and matrix[i][j] <= matrix[i-1][j]:
+                    units[(i-1,j)][1] = True
+                    atlQ.append((i - 1, j))
+                if i+1 < m and units[(i+1,j)][1] == False and matrix[i][j] <= matrix[i+1][j]:
+                    units[(i+1,j)][1] = True
+                    atlQ.append((i + 1, j))
+                if j-1 >= 0 and units[(i,j-1)][1] == False and matrix[i][j] <= matrix[i][j-1]:
+                    units[(i,j-1)][1] = True
+                    atlQ.append((i, j - 1))
+                if j+1 < n and units[(i,j+1)][1] == False and matrix[i][j] <= matrix[i][j+1]:
+                    units[(i,j+1)][1] = True
+                    atlQ.append((i, j + 1))
+        while pacQ:
+            temp = [ ]
+            while pacQ:
+                temp.append(pacQ.pop())
+            for i, j in temp:
+                if i-1 >= 0 and units[(i-1,j)][0] == False and matrix[i][j] <= matrix[i-1][j]:
+                    units[(i-1,j)][0] = True
+                    pacQ.append((i - 1, j))
+                if i+1 < m and units[(i+1,j)][0] == False and matrix[i][j] <= matrix[i+1][j]:
+                    units[(i+1,j)][0] = True
+                    pacQ.append((i + 1, j))
+                if j-1 >= 0 and units[(i,j-1)][0] == False and matrix[i][j] <= matrix[i][j-1]:
+                    units[(i,j-1)][0] = True
+                    pacQ.append((i, j - 1))
+                if j+1 < n and units[(i,j+1)][0] == False and matrix[i][j] <= matrix[i][j+1]:
+                    units[(i,j+1)][0] = True
+                    pacQ.append((i, j + 1))
+        ret = [ ]
+        for i in range(m):
+            for j in range(n):
+                if units[(i, j)] == [True, True]:
+                    ret.append([i, j])
+        return ret
+        
