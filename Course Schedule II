@@ -1,0 +1,24 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        pReq = defaultdict(set)
+        nxtCourses = defaultdict(list)
+        first = set(range(numCourses))
+        for lst in prerequisites:
+            pReq[lst[0]].add(lst[1])
+            nxtCourses[lst[1]].append(lst[0])
+            if lst[0] in first:
+                first.remove(lst[0])
+        if not len(first):
+            return [ ]
+        ret = list(first)
+        numCourses -= len(ret)
+        for course in ret:
+            lst = nxtCourses[course]
+            for futureCourse in lst:
+                pReq[futureCourse].remove(course)
+                if len(pReq[futureCourse]) == 0:
+                    ret.append(futureCourse)
+                    numCourses -= 1
+        return [ ] if numCourses else ret
+        
+        
