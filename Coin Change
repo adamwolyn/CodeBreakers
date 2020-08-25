@@ -1,0 +1,19 @@
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        coinCashe = [0] + [False] * amount
+        def helper(coins, coinCashe, amount):
+            if amount < 0:
+                return -1
+            if coinCashe[amount] != False or amount == 0:
+                return coinCashe[amount]
+            ret = float("inf")
+            for coin in coins:
+                n = helper(coins, coinCashe, amount - coin)
+                if n >= 0:
+                    ret = min(ret, n + 1)
+            if ret == float("inf"):
+                coinCashe[amount] = -1
+                return -1
+            coinCashe[amount] = ret
+            return ret
+        return helper(coins, coinCashe, amount)
