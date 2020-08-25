@@ -1,0 +1,15 @@
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        dis = [0] + [float("inf")] * len(nums)
+        lastIndex = 0
+        for i in range(len(nums) - 1):
+            numJumps = nums[i]
+            for j in range(lastIndex + 1, i + numJumps + 1):
+                if j >= len(nums):
+                    break
+                dis[j] = dis[i] + 1
+            if dis[-2] < float("inf"):
+                break
+            lastIndex = max(i + numJumps, lastIndex)
+        return dis[-2]
+        
