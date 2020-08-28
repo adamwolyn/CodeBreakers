@@ -1,0 +1,10 @@
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 0 or n == 1 or n == 2:
+            return n
+        min2 = 1
+        min1 = 2
+        for _ in range(n - 2):
+            min1, min2 = min2 + min1, min1   
+        return min1
+            
