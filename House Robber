@@ -1,0 +1,7 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        can = 0
+        cant = 0
+        for num in nums:
+            can, cant = cant, max(can + num, cant)
+        return cant
