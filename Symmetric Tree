@@ -1,0 +1,9 @@
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        def h(tree1, tree2):
+            if not tree1 and not tree2:
+                return True
+            if not tree1 or not tree2:
+                return False
+            return tree1.val == tree2.val and h(tree1.left, tree2.right) and h(tree2.left, tree1.right)
+        return h(root, root)
